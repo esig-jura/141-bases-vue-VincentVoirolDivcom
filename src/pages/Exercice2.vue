@@ -14,6 +14,7 @@
           placeholder="Entrez un nouveau titre"
           outlined
           class="mb-4"
+          v-model="title"
         />
         <!-- Ajoutez ici une liaison dynamique avec la variable description -->
         <v-textarea
@@ -21,17 +22,18 @@
           placeholder="Entrez une nouvelle description"
           outlined
           rows="3"
+          v-model="description"
         />
       </v-form>
 
       <!-- Carte dynamique -->
       <v-card class="mx-auto my-6 pa-2" max-width="400">
         <!-- Titre dynamique -->
-        <v-card-title>*** TITRE ***</v-card-title>
+        <v-card-title>{{ title }}</v-card-title>
 
         <!-- Description dynamique -->
         <v-card-subtitle>
-          *** DESCRIPTION ***
+          {{ description }}
         </v-card-subtitle>
       </v-card>
     </div>
@@ -41,9 +43,10 @@
 <script setup>
 // Importation du composant contenant la donnée de l'exercice
 import ExerciceObjectifs from "@/components/ExerciceObjectifs.vue";
+import {ref} from "vue";
 
 // Données préparées pour l'exercice
-const title = "Bienvenue à l'exercice 2"
-const description = "Cet exercice teste la gestion des événements et l'interaction avec les formulaires."
+const title = ref("Bienvenue à l'exercice 2")
+const description = ref("Cet exercice teste la gestion des événements et l'interaction avec les formulaires.")
 </script>
 

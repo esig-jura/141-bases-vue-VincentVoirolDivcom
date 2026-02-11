@@ -10,15 +10,21 @@
 
         <v-card-subtitle>
           Caractères restants :
-          <strong>*** CARACTÈRES RESTANTS ***</strong>
+          <strong>{{ remainingChars }}</strong>
         </v-card-subtitle>
 
         <v-card-text>
-          <v-alert type="error" class="mb-2">
+          <v-alert
+            v-if="remainingChars < 0"
+            type="error"
+            class="mb-2"
+          >
             Vous avez atteint la limite maximale de caractères !
           </v-alert>
 
           <v-text-field
+            ref="textField"
+            v-model="userInput"
             outlined
             rows="2"
             label="Tapez votre texte ici"
@@ -27,7 +33,10 @@
         </v-card-text>
 
         <v-card-actions>
-          <v-btn color="primary">
+          <v-btn
+            @click="activateTextField"
+            color="primary"
+          >
             Activer le champ de texte
           </v-btn>
         </v-card-actions>
@@ -39,12 +48,21 @@
 <script setup>
 // Importation du composant contenant la donnée de l'exercice
 import ExerciceObjectifs from "@/components/ExerciceObjectifs.vue";
+
 // Importation de la fonction réactive ref
-import { ref } from 'vue';
+import {computed, ref} from 'vue';
 
 // Constante pour la limite de caractères
 const MAX_LENGTH = 20;
 // Variable réactive pour le texte saisi
 const userInput = ref('');
+// Proprité calculée pour le nombre de caractères restants
+const remainingChars =  computed(() => MAX_LENGTH - userInput.value.length);
+// Ref pour le champ de texte
+const textField = ref(null);
 
+// Fonction pour activer le champ de texte
+const activateTextField = () => {
+  textField.value.focus();
+};
 </script>

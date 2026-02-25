@@ -12,33 +12,35 @@
         <v-text-field
           label="Nouvelle tâche"
           clearable
+          v-model="newTask"
+          @keyup.enter="addTask"
         >
           <template v-slot:append-inner>
-            <v-btn>Ajouter</v-btn>
+            <v-btn @click="addTask">Ajouter</v-btn>
           </template>
         </v-text-field>
 
         <v-card-title>Liste des tâches</v-card-title>
 
-        <v-card-subtitle>
+        <v-card-subtitle v-if="tasks.length === 0">
           Il n'y a pas de tâches... chanceux ! 😄
         </v-card-subtitle>
 
-        <v-list>
+        <v-list v-else v-for="(task, index) in sortTasks" :key="index">
           <v-list-item>
             <template v-slot:prepend>
               <v-list-item-action start>
-                <v-checkbox-btn />
+                <v-checkbox-btn v-model="task.completed"/>
               </v-list-item-action>
             </template>
 
-            <v-list-item-title>
-              *** Titre de la tâche ***
+            <v-list-item-title :class="{'done': task.completed}">
+              {{ task.title }}
             </v-list-item-title>
 
             <v-list-item-subtitle>
-              Créé le *** Date ***
-              à *** Heure ***
+              Créé le {{ new Date(task.date).toLocaleDateString() }}
+              à {{ new Date(task.date).toLocaleTimeString() }}
             </v-list-item-subtitle>
           </v-list-item>
         </v-list>
@@ -51,7 +53,7 @@
 // Importation du composant ExerciceObjectifs
 import ExerciceObjectifs from "@/components/ExerciceObjectifs.vue";
 // Importation de la fonction réactive ref
-import {ref} from 'vue';
+import {computed, ref, watch} from 'vue';
 
 // Tableau réactif de tâches
 const tasks = ref([
@@ -71,8 +73,9 @@ const tasks = ref([
     "date": 1737856351933
   }
 ]);
+
 // Nouvelle tâche à ajouter
-const newTask = ref("*** Nouvelle tâche ***");
+const newTask = ref("");
 
 /**
  * Fonction qui ajoute une nouvelle tâche à la liste.
@@ -87,8 +90,23 @@ function addTask () {
   // Réinitialisation de la saisie
   newTask.value = "";
 }
+
+// Trier les tâches par date de création (du plus récent au plus ancien)
+const sortTasks = computed(() => {
+  return tasks.value.slice().sort((a, b) => b.date - a.date);
+});
+
+// Supprimer la liste si "delete" est inscrit dans le champ de saisie
+watch(newTask, (value) => {
+  if (value.toLowerCase() === "delete") {
+    tasks.value = [];
+    newTask.value = "";
+  }
+});
 </script>
 
-<style scoped lang="sass">
-
+<style scoped>
+.done {
+  text-decoration: line-through;
+}
 </style>

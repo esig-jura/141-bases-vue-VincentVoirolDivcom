@@ -24,7 +24,17 @@
 <script setup>
 // Importation des données de l'exercice
 import ExerciceObjectifs from "@/components/ExerciceObjectifs.vue";
+import {onMounted, onUnmounted} from "vue";
 
+// Alert lors que le composant est monté
+onMounted(() => {
+  alert("Composant monté avec succès !");
+});
+
+// Alert lors que le composant est démonté
+onUnmounted(() => {
+  alert("Composant démonté !");
+});
 
 
 </script>

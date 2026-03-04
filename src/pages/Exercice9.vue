@@ -6,15 +6,19 @@
     <div class="exe-zone">
       <h2>Zone d'exercice</h2>
       <!-- À faire : utiliser un composant, des slots et afficher dynamiquement les items du tableau -->
-      <v-card>
+      <v-card class="card" v-for="item in items" :key="item.id">
         <v-card-title>
-          <strong>** HEADER **</strong>
+          <strong>
+            <CarteAvecSlots>
+              {{ item.header }}
+            </CarteAvecSlots>
+          </strong>
         </v-card-title>
         <v-card-text>
-          ** CONTENT **
+          {{ item.content }}
         </v-card-text>
         <v-card-actions>
-          <v-btn color="primary">** FOOTER ** (bouton)</v-btn>
+          <v-btn color="primary">{{ item.footer }}</v-btn>
         </v-card-actions>
       </v-card>
     </div>
@@ -24,6 +28,7 @@
 <script setup>
 // Importation des données de l'exercice
 import ExerciceObjectifs from "@/components/ExerciceObjectifs.vue";
+import CarteAvecSlots from "@/components/CarteAvecSlots.vue";
 
 // Données préparées pour l'exercice
 // eslint-disable-next-line no-unused-vars <-- cette ligne empêche l'erreur de variable non utilisée
@@ -35,6 +40,8 @@ const items = [
 
 </script>
 
-<style scoped lang="sass">
-
+<style scoped>
+.card {
+  margin-bottom: 20px;
+}
 </style>

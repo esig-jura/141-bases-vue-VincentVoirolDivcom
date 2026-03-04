@@ -11,18 +11,7 @@
         <v-card-text>
           <v-list>
             <!-- Element à transformer en composant -->
-            <v-list-item>
-              <v-list-item-title>
-                *** Pika Pika ! ***
-              </v-list-item-title>
-
-              <template v-slot:append>
-                <v-btn
-                  icon="mdi-delete"
-                  variant="text"
-                ></v-btn>
-              </template>
-            </v-list-item>
+            <PokemonCard :pokemon-name="pokemon" v-for="(pokemon, index) in pokemons" :key="index" @remove="removePokemon(index)"/>
             <!-- Fin de l'élément à transformer en composant -->
           </v-list>
         </v-card-text>
@@ -34,6 +23,7 @@
 <script setup>
 import { ref } from 'vue';
 import ExerciceObjectifs from "@/components/ExerciceObjectifs.vue";
+import PokemonCard from "@/components/PokemonCard.vue";
 
 // Liste initiale des Pokémon
 const pokemons = ref(["Pikachu", "Bulbizarre", "Salamèche", "Carapuce", "Rondoudou"]);
